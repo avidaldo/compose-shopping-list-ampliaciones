@@ -7,15 +7,17 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
-
 @Composable
 fun ShoppingListItem(
-    items: ShoppingListProduct,
-    onClose: () -> Unit
+    productName: String,
+    checked: Boolean,
+    onChangeChecked: (Boolean) -> Unit,
+    onClose: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         Modifier.fillMaxSize(),
@@ -35,7 +37,7 @@ fun ShoppingListItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    items.productName,
+                    productName,
                     Modifier
                         .weight(1F)
                         .padding(start = 16.dp),
@@ -43,12 +45,12 @@ fun ShoppingListItem(
                 )
 
                 Checkbox(
-                    checked = items.isChecked,
-                    onCheckedChange = { items.isChecked = it }
+                    checked = checked,
+                    onCheckedChange = onChangeChecked
                 )
 
-                IconButton( onClick = onClose ) {
-                    Icon(Icons.Filled.Close, contentDescription = "Close")
+                IconButton(onClick = onClose) {
+                    Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.close))
                 }
             }
         }

@@ -1,15 +1,12 @@
 package com.example.listacompra
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -21,67 +18,64 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 fun MainScreen() {
     val viewModel: ShoppingListViewModel = viewModel()
 
-    val context = LocalContext.current
+    Scaffold(
+        scaffoldState = rememberScaffoldState(),  // TODO
+        topBar = {
+            TopAppBar(
+                title = { Text(stringResource(R.string.title)) },
+                actions = {
+                    if (viewModel.shoppingList.isNotEmpty()) {
+                        Text(text = stringResource(R.string.select_all), fontSize = 10.sp)
+                        Checkbox(
+                            checked = viewModel.shoppingList.all { it.checked },
+                            onCheckedChange = {
+                                if (viewModel.shoppingList.all { it.checked }) viewModel.checkNone()
+                                else (viewModel.checkAll())
+                            })
+                    }
+                    if (viewModel.shoppingList.any { it.checked }) {
+                        IconButton(onClick = { viewModel.setsRemoveDialog(true) }) {
+                            Icon(
+                                imageVector = Icons.Filled.Delete,
+                                contentDescription = stringResource(R.string.delete)
+                            )
+                        }
+                    }
 
-    Scaffold(scaffoldState = rememberScaffoldState(), topBar = {
-        TopAppBar(title = {
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Text(stringResource(R.string.titulo), Modifier.weight(1F))
-//                    BasicTextField(value = viewModel.listTitle, onValueChange = {viewModel.listTitle = it})
-                if (viewModel.isAnyChecked()) {
-                    Text(text = "Select All", fontSize = 10.sp)
-                    Checkbox(checked = viewModel.areAllChecked(), onCheckedChange = {
-                        if (viewModel.areAllChecked()) viewModel.checkNone()
-                        else (viewModel.checkAll())
-                    })
-                }
+                })
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { viewModel.setAddDialog(true) }) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.add)
+                )
             }
-        }, actions = {
-
-            if (viewModel.isAnyChecked()) {
-                IconButton(onClick = { viewModel.setShowRemoveDialog(true)}) {
-                    Icon(imageVector = Icons.Filled.Delete, contentDescription = "Eliminar")
-                }
-            }
-        })
-    }, floatingActionButton = {
-        FloatingActionButton(onClick = { viewModel.setShowAddDialog(true) }) {
-            Icon(imageVector = Icons.Default.Add, contentDescription = "Add item")
-        }
-    }) { paddingValues ->
+        }) { paddingValues ->
         ShoppingLazyList(
             list = viewModel.shoppingList,
-            removeElement = { viewModel.removeListElement(it) },
+            onChangeChecked = { viewModel.changeChecked(it) },
+            onRemoveItem = { viewModel.removeProduct(it) },
             modifier = Modifier.padding(paddingValues),
         )
     }
 
     if (viewModel.showAddDialog) {
-        AddDialog(
-            titleString = "Add new element",
-            confirmString = "Confirmar",
-            dismissString = "Cancelar",
+        val context = LocalContext.current
+        val stringForToast = stringResource(R.string.product_already_exists)
+        TextFieldDialog(
             onConfirm = {
-                try {
-                    viewModel.addListElement(it)
-                    viewModel.setShowAddDialog(false)
-                } catch (e: ShoppingListViewModel.ProductAlreadyExistsException) {
-                    Toast.makeText(context, "Ese producto ya existe.", Toast.LENGTH_SHORT).show()
-                }
+                if (!viewModel.addProduct(it))
+                    Toast.makeText(context, stringForToast, Toast.LENGTH_SHORT).show()
             },
-            onDismiss = { viewModel.setShowAddDialog(false) },
+            onDismiss = { viewModel.setAddDialog(false) },
         )
-    }
-    else if (viewModel.showRemoveDialog) {
-        RemoveDialog(
-            titleString = "¿Eliminar productos?",
-            confirmString = "Confirmar",
-            dismissString = "Cancelar",
+    } else if (viewModel.showRemoveDialog) {
+        ConfirmDialog(
             onConfirm = {
-                    viewModel.removeCheckedItems()
-                    viewModel.setShowRemoveDialog(false)
+                viewModel.removeCheckedProducts()
             },
-            onDismiss = { viewModel.setShowRemoveDialog(false) },
+            onDismiss = { viewModel.setsRemoveDialog(false) },
         )
     }
 

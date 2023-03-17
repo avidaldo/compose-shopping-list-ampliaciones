@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">ListaCompra</string>
-    <string name="titulo">Shopping List</string>
+    <string name="title"> \uD83D\uDED2 Shopping List</string>
+    <string name="select_all">Todos</string>
+    <string name="delete">Eliminar</string>
+    <string name="add">Añadir</string>
+    <string name="add_product">Añadir producto</string>
+    <string name="confirm">Confirmar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="product_already_exists">Ese producto ya existe.</string>
+    <string name="delete_products">¿Eliminar productos?</string>
+    <string name="close">Cerrar</string>
 </resources>

@@ -6,62 +6,81 @@ import androidx.lifecycle.ViewModel
 
 class ShoppingListViewModel : ViewModel() {
 
-    private val _shoppingList = getItemList().toMutableStateList() // delegación?
+    private val _shoppingList = mutableStateListOf<ShoppingListProduct>()
     val shoppingList get() = _shoppingList
 
     private var _showAddDialog by mutableStateOf(false)
     val showAddDialog get() = _showAddDialog
-
-    fun setShowAddDialog(value: Boolean) {
+    fun setAddDialog(value: Boolean) {
         _showAddDialog = value
     }
 
     private var _showRemoveDialog by mutableStateOf(false)
     val showRemoveDialog get() = _showRemoveDialog
-
-    fun setShowRemoveDialog(value: Boolean) {
+    fun setsRemoveDialog(value: Boolean) {
         _showRemoveDialog = value
     }
 
-    fun addListElement(item: ShoppingListProduct) {
-        shoppingList.find { item.productName == it.productName }?.let {
-            throw ProductAlreadyExistsException()
-        } ?: shoppingList.add(item)
-    }
 
-    class ProductAlreadyExistsException : RuntimeException()
+    private fun addProduct(item: ShoppingListProduct) =
+        shoppingList.add(item)
 
-
-    fun addListElement(shoppingListElementString: String) =
-        addListElement(ShoppingListProduct(shoppingListElementString))
+    fun addProduct(productString: String) =
+        if (shoppingList.none { productString == it.productName })
+            addProduct(ShoppingListProduct(productString))
+        else false  // (1)
 
 
-    fun removeListElement(item: ShoppingListProduct) {
+    fun removeProduct(item: ShoppingListProduct) {
         shoppingList.remove(item)
     }
 
-
-    fun selectAll() {
-        _shoppingList.map { it.isChecked = true }
+    fun removeCheckedProducts() {
+        _shoppingList.removeIf { it.checked }
     }
-
-
-    fun removeCheckedItems() {
-        _shoppingList.removeIf { it.isChecked }
-    }
-
-    fun isAnyChecked() = shoppingList.any { it.isChecked }
-
-    fun areAllChecked() = shoppingList.all { it.isChecked }
-
 
     fun checkAll() {
-        _shoppingList.map { it.isChecked = true }
+        _shoppingList.map { it.checked = true }
     }
 
     fun checkNone() {
-        _shoppingList.map { it.isChecked = false }
+        _shoppingList.map { it.checked = false }
     }
+
+    fun changeChecked(product: ShoppingListProduct) {
+        product.checked = !product.checked
+    }
+
+
+    /**
+     * Aplico la lógica de las collections en Java: el método add de cualquier colection devuelve true
+     * si esa colección de datos ha cambiado tras la operación. En una lista, siempre devuelde true, pero
+     * en un Set (conjunto) devolvería false si ese elemento ya pertenece al Set ya que, por definición,
+     * un conjunto no permite elementos duplicados.
+     *
+     * Por eso en este caso opto por devolver false si el elemento ya devuelve en la lista.
+     *
+     * Podría hacerse más explícito utilizando una excepción personalizada:
+     *
+
+    fun addListElement(item: ShoppingListProduct) {
+    shoppingList.find { item.productName == it.productName }?.let {
+    throw ProductAlreadyExistsException()
+    } ?: shoppingList.add(item)
+    }
+    class ProductAlreadyExistsException : RuntimeException()
+
+     *
+     * Además, para mejorar la legibilidad, en lugar de find, utilizo la función none:
+     * https://kotlinlang.org/docs/collection-filtering.html#test-predicates
+     *
+     * Se está, por tanto, utilizando una lista y superponiéndole la lógica de un Set. Cabría plantearse
+     * entonces utilizar directamente un Set. Sin embargo, no he encontrado que exista un "mutableStateSet".
+     *
+     * Imagino que será posible utilizar un Set encapsulado con LiveData o Flows, pero aún no lo hemos
+     * visto (TODO)
+     *
+     */
 
 
 }
