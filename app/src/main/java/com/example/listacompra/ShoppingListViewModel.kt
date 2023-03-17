@@ -30,6 +30,12 @@ class ShoppingListViewModel : ViewModel() {
             addProduct(ShoppingListProduct(productString))
         else false  // (1)
 
+    fun addProductJavaStyle(productString: String): Boolean {
+        if (shoppingList.none { productString == it.productName })
+            return addProduct(ShoppingListProduct(productString))
+        else return false  // (1)
+    }
+
 
     fun removeProduct(item: ShoppingListProduct) {
         shoppingList.remove(item)
@@ -43,8 +49,13 @@ class ShoppingListViewModel : ViewModel() {
         _shoppingList.map { it.checked = true }
     }
 
-    fun checkNone() {
+    fun unCheckAll() {
         _shoppingList.map { it.checked = false }
+    }
+
+    // Este método podría sustituir a los dos anteriores
+    fun setCheckedAll(newValue: Boolean) {
+        _shoppingList.map { it.checked = newValue }
     }
 
     fun changeChecked(product: ShoppingListProduct) {
@@ -64,9 +75,9 @@ class ShoppingListViewModel : ViewModel() {
      *
 
     fun addListElement(item: ShoppingListProduct) {
-    shoppingList.find { item.productName == it.productName }?.let {
-    throw ProductAlreadyExistsException()
-    } ?: shoppingList.add(item)
+        shoppingList.find { item.productName == it.productName }?.let {
+            throw ProductAlreadyExistsException()
+        } ?: shoppingList.add(item)
     }
     class ProductAlreadyExistsException : RuntimeException()
 

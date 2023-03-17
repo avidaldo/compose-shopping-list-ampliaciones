@@ -29,7 +29,7 @@ fun MainScreen() {
                         Checkbox(
                             checked = viewModel.shoppingList.all { it.checked },
                             onCheckedChange = {
-                                if (viewModel.shoppingList.all { it.checked }) viewModel.checkNone()
+                                if (viewModel.shoppingList.all { it.checked }) viewModel.unCheckAll()
                                 else (viewModel.checkAll())
                             })
                     }
