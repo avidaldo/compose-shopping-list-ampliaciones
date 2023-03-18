@@ -69,6 +69,8 @@ class ShoppingListViewModel : ViewModel() {
      * en un Set (conjunto) devolvería false si ese elemento ya pertenece al Set ya que, por definición,
      * un conjunto no permite elementos duplicados.
      *
+     * https://stackoverflow.com/questions/24173117/why-does-list-adde-return-boolean-while-list-addint-e-returns-void
+     *
      * Por eso en este caso opto por devolver false si el elemento ya devuelve en la lista.
      *
      * Podría hacerse más explícito utilizando una excepción personalizada:
