@@ -51,11 +51,11 @@ fun TextFieldDialog(
                 value = text,
                 onValueChange = { text = it },
                 Modifier.focusRequester(focusRequester),
-                keyboardActions = KeyboardActions(onNext = {
+/*                keyboardActions = KeyboardActions(onNext = {
                     focusManager.moveFocus(
                         FocusDirection.Next
                     )
-                }),
+                }),*/  // (3)
                 singleLine = true,
             )  // (1)
             LocalView.current.viewTreeObserver.addOnWindowFocusChangeListener {// (2)
@@ -73,4 +73,6 @@ fun TextFieldDialog(
  * Para conseguir que salga el teclado directamente poniendo el foco en el TextField cuando se abre
  * el AlertDialog.
  * (2) https://stackoverflow.com/questions/69750447/jetpack-compose-focus-requester-not-working-with-dialog
+ *
+ * (3) TODO: No recuerdo por qué está eso ahí.
  */
