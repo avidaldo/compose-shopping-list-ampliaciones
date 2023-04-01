@@ -31,8 +31,7 @@ fun ShoppingListItem(
             elevation = 8.dp
         ) {
             Row(
-                Modifier
-                    .padding(15.dp),
+                Modifier.padding(15.dp),
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {
