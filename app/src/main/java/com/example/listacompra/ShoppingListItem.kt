@@ -19,40 +19,36 @@ fun ShoppingListItem(
     onClose: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.Start
+    Card(
+        Modifier
+            .padding(vertical = 5.dp)
+            .fillMaxWidth(),
+        backgroundColor = MaterialTheme.colors.secondary,
+        elevation = 8.dp
     ) {
-        Card(
-            Modifier
-                .padding(10.dp)
-                .fillMaxWidth(),
-            backgroundColor = MaterialTheme.colors.secondary,
-            elevation = 8.dp
+        Row(
+            Modifier.padding(15.dp),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                Modifier.padding(15.dp),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    productName,
-                    Modifier
-                        .weight(1F)
-                        .padding(start = 16.dp),
-                    fontSize = 25.sp
-                )
+            Text(
+                productName,
+                Modifier
+                    .weight(1F)
+                    .padding(start = 16.dp),
+                fontSize = 25.sp
+            )
 
-                Checkbox(
-                    checked = checked,
-                    onCheckedChange = onChangeChecked
-                )
+            Checkbox(
+                checked = checked,
+                onCheckedChange = onChangeChecked
+            )
 
-                IconButton(onClick = onClose) {
-                    Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.close))
-                }
+            IconButton(onClick = onClose) {
+                Icon(Icons.Filled.Close, contentDescription = stringResource(R.string.close))
             }
         }
     }
 }
+
 

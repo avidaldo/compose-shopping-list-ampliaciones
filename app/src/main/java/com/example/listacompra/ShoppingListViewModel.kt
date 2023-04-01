@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModel
 
 class ShoppingListViewModel : ViewModel() {
 
-    private val _shoppingList = mutableStateListOf<ShoppingListProduct>()
+    private val _shoppingList = getFakeShoppingProducts().toMutableStateList() // para testear
+    //private val _shoppingList = mutableStateListOf<ShoppingProduct>()
     val shoppingList get() = _shoppingList
 
     private var _showAddDialog by mutableStateOf(false)
@@ -22,22 +23,22 @@ class ShoppingListViewModel : ViewModel() {
     }
 
 
-    private fun addProduct(item: ShoppingListProduct) =
+    private fun addProduct(item: ShoppingProduct) =
         shoppingList.add(item)
 
     fun addProduct(productString: String) =
         if (shoppingList.none { productString == it.productName })
-            addProduct(ShoppingListProduct(productString))
+            addProduct(ShoppingProduct(productString))
         else false  // (1)
 
     fun addProductJavaStyle(productString: String): Boolean {
         if (shoppingList.none { productString == it.productName })
-            return addProduct(ShoppingListProduct(productString))
+            return addProduct(ShoppingProduct(productString))
         else return false  // (1)
     }
 
 
-    fun removeProduct(item: ShoppingListProduct) {
+    fun removeProduct(item: ShoppingProduct) {
         shoppingList.remove(item)
     }
 
@@ -58,7 +59,7 @@ class ShoppingListViewModel : ViewModel() {
         _shoppingList.map { it.checked = newValue }
     }
 
-    fun changeChecked(product: ShoppingListProduct) {
+    fun changeChecked(product: ShoppingProduct) {
         product.checked = !product.checked
     }
 

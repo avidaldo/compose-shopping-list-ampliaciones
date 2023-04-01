@@ -1,18 +1,20 @@
 package com.example.listacompra
 
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun ShoppingLazyList(
-    list: List<ShoppingListProduct>,
-    onChangeChecked: (ShoppingListProduct) -> Unit,
-    onRemoveItem: (ShoppingListProduct) -> Unit,
+    list: List<ShoppingProduct>,
+    onChangeChecked: (ShoppingProduct) -> Unit,
+    onRemoveItem: (ShoppingProduct) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(modifier) {
+    LazyColumn(modifier.padding(10.dp)) {
         items(items = list) { product ->
             ShoppingListItem(
                 productName = product.productName,
