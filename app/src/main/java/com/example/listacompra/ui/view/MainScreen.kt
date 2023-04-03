@@ -1,4 +1,4 @@
-package com.example.listacompra
+package com.example.listacompra.ui.view
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.padding
@@ -12,6 +12,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.listacompra.R
+import com.example.listacompra.ui.state.ShoppingListViewModel
 
 
 @Composable
@@ -80,6 +82,3 @@ fun MainScreen() {
     }
 
 }
-
-
-

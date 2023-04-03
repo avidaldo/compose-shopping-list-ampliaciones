@@ -1,4 +1,4 @@
-package com.example.listacompra
+package com.example.listacompra.ui.state
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.ui.Modifier
+import com.example.listacompra.ui.view.MainScreen
 import com.example.listacompra.ui.theme.ListaCompraTheme
 
 class MainActivity : ComponentActivity() {

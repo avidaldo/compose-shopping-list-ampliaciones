@@ -1,4 +1,4 @@
-package com.example.listacompra
+package com.example.listacompra.ui.state
 
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
@@ -24,14 +24,14 @@ class ShoppingListViewModel : ViewModel() {
 
 
     private fun addProduct(item: ShoppingProduct) =
-        shoppingList.add(item)
+        _shoppingList.add(item)
 
     fun addProduct(productString: String) =
         if (shoppingList.none { productString == it.productName })
             addProduct(ShoppingProduct(productString))
         else false  // (1)
 
-    fun addProductJavaStyle(productString: String): Boolean {
+    fun addProductImperativeStyle(productString: String): Boolean {
         if (shoppingList.none { productString == it.productName })
             return addProduct(ShoppingProduct(productString))
         else return false  // (1)
@@ -39,7 +39,7 @@ class ShoppingListViewModel : ViewModel() {
 
 
     fun removeProduct(item: ShoppingProduct) {
-        shoppingList.remove(item)
+        _shoppingList.remove(item)
     }
 
     fun removeCheckedProducts() {
