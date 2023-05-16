@@ -8,7 +8,8 @@ class ShoppingListViewModel : ViewModel() {
 
     private val _shoppingList = getFakeShoppingProducts().toMutableStateList() // para testear
     //private val _shoppingList = mutableStateListOf<ShoppingProduct>()
-    val shoppingList get() = _shoppingList
+    val shoppingList: List<ShoppingProduct> get() = _shoppingList
+    // https://stackoverflow.com/questions/68261797/private-setter-vs-backing-property-in-kotlin
 
     private var _showAddDialog by mutableStateOf(false)
     val showAddDialog get() = _showAddDialog
