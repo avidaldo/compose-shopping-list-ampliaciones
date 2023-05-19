@@ -6,7 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.listacompra.ui.state.ShoppingProduct
+import com.example.listacompra.data.ShoppingProduct
 
 @Composable
 fun ShoppingLazyList(
